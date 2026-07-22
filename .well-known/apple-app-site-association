@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["VUL926KXLG.com.chilllisn.wakecub"],
+        "components": [{ "/": "/i/*" }]
+      }
+    ]
+  }
+}
