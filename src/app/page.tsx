@@ -36,8 +36,8 @@ const guarantees = [
     body: "Force-quit it, swipe the notification away, turn the volume down — it keeps coming back. Getting rid of Wake cub is meant to be harder than getting up.",
   },
   {
-    title: "Friends can see you slept in",
-    body: "Add friends and you'll see who's up and who isn't. If someone's still snoozing, you can nudge them. The faster you're up, the more points you keep.",
+    title: "Set off a friend's alarm",
+    body: "Catch a friend still asleep and you can ring their phone yourself — and choose the task they have to finish to stop it. Pick squats, and they are doing squats.",
   },
 ];
 
