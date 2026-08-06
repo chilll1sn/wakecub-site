@@ -38,39 +38,74 @@
   }
   footer a { color: var(--dim); }
 
-  /* Language switch. Both translations ship in the page and :target picks
-     between them, so this needs no JavaScript and no second URL — the app,
-     App Store Connect and the site footer all keep pointing at /terms.html. */
+  /* Language switch. Both translations ship in the one file — the app, App
+     Store Connect and the site footer all keep pointing at /terms.html — and
+     html[data-lang] picks between them. English is the CSS default, so a
+     browser that never runs the script still gets a readable page; the script
+     only ever upgrades a Chinese reader to Chinese. */
   .lang { display: flex; gap: 8px; margin: 0 0 28px; font-size: 13px; }
   .lang a {
     text-decoration: none; color: var(--dim);
     border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
   }
-  #zh:target ~ .lang a[href="#zh"],
-  .lang a[href="#en"] {
+  .lang a[href="#en"],
+  [data-lang="zh"] .lang a[href="#zh"] {
     background: var(--accent); border-color: var(--accent); color: #fff;
   }
-  #zh:target ~ .lang a[href="#en"] {
+  [data-lang="zh"] .lang a[href="#en"] {
     background: none; border-color: var(--line); color: var(--dim);
   }
-  /* English is what you get by default; Chinese only once #zh is targeted. */
-  [lang="zh-Hant"] { display: none; }
-  #zh:target ~ [lang="zh-Hant"] { display: block; }
-  #zh:target ~ [lang="en"] { display: none; }
+  /* Scoped to .body-* rather than [lang], because the script also sets lang on
+     <html> — an unscoped [lang="zh-Hant"] rule matches the root element and
+     hides the entire document. */
+  .body-zh { display: none; }
+  [data-lang="zh"] .body-zh { display: block; }
+  [data-lang="zh"] .body-en { display: none; }
 </style>
+<script>
+  /* Runs in <head>, before first paint, so a Chinese reader never sees the
+     English flash first. Order of precedence: an explicit #zh / #en in the URL
+     always wins (it is how someone overrides the guess, and how the toggle
+     works), otherwise fall back to what the browser asks for. */
+  (function () {
+    var root = document.documentElement;
+
+    function pick() {
+      var hash = location.hash;
+      if (hash === "#zh") return "zh";
+      if (hash === "#en") return "en";
+      // navigator.languages covers the case where Chinese is a secondary
+      // preference; "zh" matches zh-TW, zh-Hant, zh-CN and friends alike,
+      // since the one translation we have serves all of them better than
+      // English does.
+      var langs = navigator.languages || [navigator.language || ""];
+      for (var i = 0; i < langs.length; i++) {
+        if (/^zh\b/i.test(langs[i])) return "zh";
+      }
+      return "en";
+    }
+
+    function apply() {
+      var lang = pick();
+      root.setAttribute("data-lang", lang);
+      // Keep the document's own language honest for screen readers, which
+      // announce the page in whatever this claims.
+      root.setAttribute("lang", lang === "zh" ? "zh-Hant" : "en");
+    }
+
+    apply();
+    addEventListener("hashchange", apply);
+  })();
+</script>
 </head>
 <body>
 <main>
-  <!-- Empty target anchor: the sibling selectors above key off whether this is
-       the current fragment. Kept first so it precedes everything it styles. -->
-  <span id="zh"></span>
-
   <nav class="lang">
     <a href="#en">English</a>
     <a href="#zh">中文</a>
   </nav>
 
-  <div lang="en">
+  <div class="body-en" lang="en">
     <h1>Terms of Use</h1>
     <p class="updated">Last updated: 2026-07-22</p>
 
@@ -157,7 +192,7 @@
     </footer>
   </div>
 
-  <div lang="zh-Hant">
+  <div class="body-zh" lang="zh-Hant">
     <h1>使用條款</h1>
     <p class="updated">最後更新：2026-07-22</p>
 
