@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { InviteBanner } from "@/components/invite-banner";
 import { Reveal } from "@/components/reveal";
+import { APP_STORE_URL } from "@/lib/app-store";
 
 /* The three camera-verified tasks, each with the mascot actually doing it.
    Animated WebP with transparency — plain <img> rather than next/image, because
@@ -104,7 +105,7 @@ export default function Home() {
             variant="outline"
             className="mb-6 rounded-full px-4 py-1.5 text-[0.875rem] font-normal text-muted-foreground"
           >
-            Coming to iOS
+            Out now on iOS
           </Badge>
           <h1 className="text-balance text-[clamp(2.5rem,1.4rem+4.4vw,4.25rem)] font-black leading-[1] tracking-[-0.035em]">
             Every other alarm can be turned off{" "}
@@ -115,10 +116,10 @@ export default function Home() {
             something.
           </p>
           <a
-            href="mailto:ravenholo7@gmail.com?subject=Wake%20cub%20early%20access"
+            href={APP_STORE_URL}
             className="mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
           >
-            Get early access
+            Download on the App Store
           </a>
         </Reveal>
 
@@ -276,14 +277,14 @@ export default function Home() {
             You can&apos;t argue with a bear that won&apos;t stop shouting.
           </p>
           <p className={`mx-auto mt-5 max-w-[44ch] text-pretty ${bodyText}`}>
-            Wake cub is in development for iOS. Free to download, with the
+            Wake cub is on the App Store. Free to download, with the
             camera-verified tasks available on subscription.
           </p>
           <a
-            href="mailto:ravenholo7@gmail.com?subject=Wake%20cub%20early%20access"
+            href={APP_STORE_URL}
             className="mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
           >
-            Get early access
+            Download on the App Store
           </a>
         </Reveal>
       </section>
