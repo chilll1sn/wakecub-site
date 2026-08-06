@@ -115,12 +115,26 @@ export default function Home() {
             Wake cub keeps ringing until the camera has watched you actually do
             something.
           </p>
-          <a
-            href={APP_STORE_URL}
-            className="mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
-          >
-            Download on the App Store
-          </a>
+          {/* Same desktop-only QR as the closing CTA, a size down: the hero
+              column is narrower, and the button beside it already carries the
+              wording, so this one goes without a label. */}
+          <div className="mt-8 flex items-center gap-5">
+            <a
+              href={APP_STORE_URL}
+              className="inline-flex h-12 shrink-0 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
+            >
+              Download on the App Store
+            </a>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/app-store-qr.svg"
+              alt="QR code linking to Wake cub on the App Store"
+              width={88}
+              height={88}
+              loading="lazy"
+              className="hidden size-[5.5rem] shrink-0 rounded-[10px] sm:block"
+            />
+          </div>
         </Reveal>
 
         <Reveal delay={0.12}>
