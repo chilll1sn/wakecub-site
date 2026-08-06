@@ -280,12 +280,34 @@ export default function Home() {
             Wake cub is on the App Store. Free to download, with the
             camera-verified tasks available on subscription.
           </p>
-          <a
-            href={APP_STORE_URL}
-            className="mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
-          >
-            Download on the App Store
-          </a>
+          {/* The QR is for desktop readers, who can't tap the button with the
+              phone they'd install on. It carries its own white plate because
+              the site is dark-only and inverted codes scan unreliably. */}
+          <div className="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-7">
+            <a
+              href={APP_STORE_URL}
+              className="inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
+            >
+              Download on the App Store
+            </a>
+            <div className="hidden items-center gap-3 sm:flex">
+              <div className="h-10 w-px bg-border" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/app-store-qr.svg"
+                alt="QR code linking to Wake cub on the App Store"
+                width={104}
+                height={104}
+                loading="lazy"
+                className="size-[6.5rem] rounded-[10px]"
+              />
+              <p className="text-left text-sm leading-[1.45] text-muted-foreground">
+                Or point your
+                <br />
+                camera here
+              </p>
+            </div>
+          </div>
         </Reveal>
       </section>
 
