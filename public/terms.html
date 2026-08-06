@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>使用條款 — Wake cub</title>
-<meta name="description" content="Wake cub 訂閱方案的使用條款與 Apple 標準授權合約（EULA）。">
+<title>Terms of Use — Wake cub</title>
+<meta name="description" content="Terms of Use for the Wake cub Premium subscription, alongside Apple's standard EULA.">
 <style>
   :root {
     --bg: #fdfaf6; --card: #fff; --text: #1c1917; --dim: #78716c;
@@ -37,81 +37,199 @@
     font-size: 13px; color: var(--dim);
   }
   footer a { color: var(--dim); }
+
+  /* Language switch. Both translations ship in the page and :target picks
+     between them, so this needs no JavaScript and no second URL — the app,
+     App Store Connect and the site footer all keep pointing at /terms.html. */
+  .lang { display: flex; gap: 8px; margin: 0 0 28px; font-size: 13px; }
+  .lang a {
+    text-decoration: none; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  }
+  #zh:target ~ .lang a[href="#zh"],
+  .lang a[href="#en"] {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+  #zh:target ~ .lang a[href="#en"] {
+    background: none; border-color: var(--line); color: var(--dim);
+  }
+  /* English is what you get by default; Chinese only once #zh is targeted. */
+  [lang="zh-Hant"] { display: none; }
+  #zh:target ~ [lang="zh-Hant"] { display: block; }
+  #zh:target ~ [lang="en"] { display: none; }
 </style>
 </head>
 <body>
 <main>
-  <h1>使用條款</h1>
-  <p class="updated">最後更新：2026-07-22</p>
+  <!-- Empty target anchor: the sibling selectors above key off whether this is
+       the current fragment. Kept first so it precedes everything it styles. -->
+  <span id="zh"></span>
 
-  <p>
-    這份條款適用於 Wake cub（下稱「本 App」）的訂閱方案 <strong>Wake cub Premium</strong>。
-    下載與使用本 App 也代表你同意
-    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">
-      Apple 標準授權合約（Licensed Application End User License Agreement）</a>——
-    若本頁與 Apple 標準條款有衝突，以本頁針對訂閱內容的說明為準，其餘一律適用 Apple 標準條款。
-  </p>
+  <nav class="lang">
+    <a href="#en">English</a>
+    <a href="#zh">中文</a>
+  </nav>
 
-  <h2>訂閱內容</h2>
-  <p>訂閱 Wake cub Premium 可解鎖：</p>
-  <ul>
-    <li>刷牙、揮拳、深蹲、慢跑、拍照比對等相機驗證起床任務</li>
-    <li>最多 3 個鬧鐘（免費層為 1 個）</li>
-  </ul>
-  <p>方案分為週訂、月訂、年訂三檔，實際價格以你在 App 內看到、由 App Store 依所在地即時提供的金額為準。</p>
+  <div lang="en">
+    <h1>Terms of Use</h1>
+    <p class="updated">Last updated: 2026-07-22</p>
 
-  <h2>免費試用</h2>
-  <div class="card">
     <p>
-      年訂方案含 7 天免費試用。試用期間不會扣款；試用期滿後，除非在到期前取消，
-      將自動以你選擇方案的定價開始收費並自動續訂。
+      These terms cover <strong>Wake cub Premium</strong>, the subscription offered inside
+      Wake cub (the &ldquo;App&rdquo;). Downloading and using the App also means you accept
+      Apple&rsquo;s
+      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">
+        Licensed Application End User License Agreement</a>. Where this page and Apple&rsquo;s
+      standard terms conflict, this page governs the subscription specifics described here;
+      Apple&rsquo;s standard terms apply to everything else.
     </p>
+
+    <h2>What the subscription includes</h2>
+    <p>Wake cub Premium unlocks:</p>
+    <ul>
+      <li>The camera-verified wake-up tasks: brushing, punching, squats, jogging and photo matching</li>
+      <li>Up to 3 alarms (the free tier allows 1)</li>
+    </ul>
+    <p>
+      Weekly, monthly and annual plans are available. The price that applies is the one shown
+      in the App, provided by the App Store for your region at the time of purchase.
+    </p>
+
+    <h2>Free trial</h2>
+    <div class="card">
+      <p>
+        The annual plan includes a 7-day free trial. Nothing is charged during the trial;
+        when it ends, the subscription renews automatically at the price of the plan you
+        selected unless you cancel before the trial is over.
+      </p>
+    </div>
+    <p>
+      Eligibility for the trial is determined by the App Store. If you have used a trial for
+      the same item before, it may not be offered again — the terms and price shown on the
+      purchase screen in the App are what apply.
+    </p>
+
+    <h2>Automatic renewal and cancellation</h2>
+    <p>
+      Subscriptions renew automatically at the end of each period unless you cancel at least
+      24 hours before that period ends. Payment is charged to your Apple ID account on
+      confirmation of purchase, and renewals are charged within 24 hours before the current
+      period ends.
+    </p>
+    <p>
+      You can manage or cancel a subscription at any time on your iPhone under
+      Settings → [your name] → Subscriptions. After cancelling, access you have already paid
+      for continues until the end of that period; it is not cut off immediately and is not
+      refunded pro rata.
+    </p>
+
+    <h2>Refunds</h2>
+    <p>
+      All transactions are handled by Apple. Refund requests go to Apple via
+      <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>;
+      the developer of this App cannot issue refunds directly.
+    </p>
+
+    <h2>Payment and account</h2>
+    <p>
+      Every subscription purchase is processed by the Apple App Store. We never see or store
+      your card or payment details. We use a third-party service, RevenueCat, to confirm your
+      subscription status, solely to determine whether you can use the paid features.
+    </p>
+
+    <h2>What happens to alarms you have already set</h2>
+    <p>
+      A subscription ending does not alter alarms you have already configured — they ring with
+      the task you originally set, so a subscription expiring overnight will not change the
+      task waiting for you in the morning. Your subscription status only affects whether you
+      can add or edit Premium tasks and extra alarms from then on.
+    </p>
+
+    <h2>Related documents</h2>
+    <p>
+      For what data is collected and how it is handled, see the
+      <a href="https://chilll1sn.github.io/wakecub-privacy/">Privacy Policy</a>.
+    </p>
+
+    <footer>
+      Contact: ravenholo7@gmail.com ·
+      <a href="/">Back to home</a>
+    </footer>
   </div>
-  <p>
-    是否符合試用資格由 App Store 認定——若你曾經試用過同一項目，可能無法再次取得試用優惠，
-    以 App 內購買畫面實際顯示的內容與價格為準。
-  </p>
 
-  <h2>自動續訂與取消</h2>
-  <p>
-    訂閱會在每期到期時自動續訂，除非你在當期結束前至少 24 小時取消。
-    付款會在確認購買時從你的 Apple ID 帳戶扣款，續訂費用會在當期結束前 24 小時內扣款。
-  </p>
-  <p>
-    你可以隨時在 iPhone 的「設定 → 〔你的名字〕 → 訂閱項目」中管理或取消訂閱。
-    取消後，已付費的當期權益會持續到該期結束，不會立即失效，也不會按比例退費。
-  </p>
+  <div lang="zh-Hant">
+    <h1>使用條款</h1>
+    <p class="updated">最後更新：2026-07-22</p>
 
-  <h2>退款</h2>
-  <p>
-    所有購買交易由 Apple 處理，退款申請請透過
-    <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>
-    向 Apple 提出，本 App 開發者無法直接為你退款。
-  </p>
+    <p>
+      這份條款適用於 Wake cub（下稱「本 App」）的訂閱方案 <strong>Wake cub Premium</strong>。
+      下載與使用本 App 也代表你同意
+      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">
+        Apple 標準授權合約（Licensed Application End User License Agreement）</a>——
+      若本頁與 Apple 標準條款有衝突，以本頁針對訂閱內容的說明為準，其餘一律適用 Apple 標準條款。
+    </p>
 
-  <h2>付款與帳號</h2>
-  <p>
-    所有訂閱購買皆由 Apple App Store 處理，我們不會接觸、儲存你的信用卡或付款資訊。
-    我們透過 RevenueCat 這家第三方服務確認你的訂閱狀態，僅用於判斷你是否可使用付費功能。
-  </p>
+    <h2>訂閱內容</h2>
+    <p>訂閱 Wake cub Premium 可解鎖：</p>
+    <ul>
+      <li>刷牙、揮拳、深蹲、慢跑、拍照比對等相機驗證起床任務</li>
+      <li>最多 3 個鬧鐘（免費層為 1 個）</li>
+    </ul>
+    <p>方案分為週訂、月訂、年訂三檔，實際價格以你在 App 內看到、由 App Store 依所在地即時提供的金額為準。</p>
 
-  <h2>已存在鬧鐘的行為</h2>
-  <p>
-    訂閱到期不會更動已經設定好的鬧鐘內容——鬧鐘會照原本設定的任務響鈴，
-    不會因為訂閱在半夜到期而臨時改變早上要完成的任務。
-    訂閱狀態只會影響你「之後」能不能新增或編輯需要 Premium 的任務與鬧鐘數量。
-  </p>
+    <h2>免費試用</h2>
+    <div class="card">
+      <p>
+        年訂方案含 7 天免費試用。試用期間不會扣款；試用期滿後，除非在到期前取消，
+        將自動以你選擇方案的定價開始收費並自動續訂。
+      </p>
+    </div>
+    <p>
+      是否符合試用資格由 App Store 認定——若你曾經試用過同一項目，可能無法再次取得試用優惠，
+      以 App 內購買畫面實際顯示的內容與價格為準。
+    </p>
 
-  <h2>相關文件</h2>
-  <p>
-    資料蒐集與隱私權說明，請見
-    <a href="https://chilll1sn.github.io/wakecub-privacy/">隱私權政策</a>。
-  </p>
+    <h2>自動續訂與取消</h2>
+    <p>
+      訂閱會在每期到期時自動續訂，除非你在當期結束前至少 24 小時取消。
+      付款會在確認購買時從你的 Apple ID 帳戶扣款，續訂費用會在當期結束前 24 小時內扣款。
+    </p>
+    <p>
+      你可以隨時在 iPhone 的「設定 → 〔你的名字〕 → 訂閱項目」中管理或取消訂閱。
+      取消後，已付費的當期權益會持續到該期結束，不會立即失效，也不會按比例退費。
+    </p>
 
-  <footer>
-    聯絡：ravenholo7@gmail.com ·
-    <a href="/">返回首頁</a>
-  </footer>
+    <h2>退款</h2>
+    <p>
+      所有購買交易由 Apple 處理，退款申請請透過
+      <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>
+      向 Apple 提出，本 App 開發者無法直接為你退款。
+    </p>
+
+    <h2>付款與帳號</h2>
+    <p>
+      所有訂閱購買皆由 Apple App Store 處理，我們不會接觸、儲存你的信用卡或付款資訊。
+      我們透過 RevenueCat 這家第三方服務確認你的訂閱狀態，僅用於判斷你是否可使用付費功能。
+    </p>
+
+    <h2>已存在鬧鐘的行為</h2>
+    <p>
+      訂閱到期不會更動已經設定好的鬧鐘內容——鬧鐘會照原本設定的任務響鈴，
+      不會因為訂閱在半夜到期而臨時改變早上要完成的任務。
+      訂閱狀態只會影響你「之後」能不能新增或編輯需要 Premium 的任務與鬧鐘數量。
+    </p>
+
+    <h2>相關文件</h2>
+    <p>
+      資料蒐集與隱私權說明，請見
+      <a href="https://chilll1sn.github.io/wakecub-privacy/">隱私權政策</a>。
+    </p>
+
+    <footer>
+      聯絡：ravenholo7@gmail.com ·
+      <a href="/">返回首頁</a>
+    </footer>
+  </div>
 </main>
 </body>
 </html>
