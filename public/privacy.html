@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Wake cub</title>
+<meta name="description" content="What Wake cub collects, why, and your choices. Camera video from wake-up tasks never leaves your device.">
+<style>
+  :root {
+    --bg: #fdfaf6; --card: #fff; --text: #1c1917; --dim: #78716c;
+    --accent: #ff8c42; --line: #eee7e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #17140f; --card: #221d17; --text: #f5f0ea; --dim: #a8a29e; --line: #322a22; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 24px 72px; }
+  h1 { font-size: 26px; line-height: 1.3; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .updated { color: var(--dim); font-size: 14px; margin: 0 0 32px; }
+  h2 { font-size: 18px; margin: 32px 0 10px; }
+  p, li { font-size: 15px; color: var(--text); }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; margin: 16px 0;
+  }
+  .card p { margin: 0; color: var(--dim); font-size: 14px; }
+  a { color: var(--accent); }
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--dim);
+  }
+  footer a { color: var(--dim); }
+
+  /* Language switch — identical mechanism to terms.html, so both legal pages
+     behave the same way and one fix applies to both. English is the CSS
+     default; the script only ever upgrades a Chinese reader to Chinese. */
+  .lang { display: flex; gap: 8px; margin: 0 0 28px; font-size: 13px; }
+  .lang a {
+    text-decoration: none; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  }
+  .lang a[href="#en"],
+  [data-lang="zh"] .lang a[href="#zh"] {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+  [data-lang="zh"] .lang a[href="#en"] {
+    background: none; border-color: var(--line); color: var(--dim);
+  }
+  /* Scoped to .body-* rather than [lang], because the script also sets lang on
+     <html> — an unscoped [lang="zh-Hant"] rule matches the root element and
+     hides the entire document. */
+  .body-zh { display: none; }
+  [data-lang="zh"] .body-zh { display: block; }
+  [data-lang="zh"] .body-en { display: none; }
+</style>
+<script>
+  /* Runs in <head>, before first paint, so a Chinese reader never sees the
+     English flash first. Order of precedence: an explicit #zh / #en in the URL
+     always wins (it is how someone overrides the guess, and how the toggle
+     works), otherwise fall back to what the browser asks for. */
+  (function () {
+    var root = document.documentElement;
+
+    function pick() {
+      var hash = location.hash;
+      if (hash === "#zh") return "zh";
+      if (hash === "#en") return "en";
+      var langs = navigator.languages || [navigator.language || ""];
+      for (var i = 0; i < langs.length; i++) {
+        if (/^zh\b/i.test(langs[i])) return "zh";
+      }
+      return "en";
+    }
+
+    function apply() {
+      var lang = pick();
+      root.setAttribute("data-lang", lang);
+      root.setAttribute("lang", lang === "zh" ? "zh-Hant" : "en");
+    }
+
+    apply();
+    addEventListener("hashchange", apply);
+  })();
+</script>
+</head>
+<body>
+<main>
+  <nav class="lang">
+    <a href="#en">English</a>
+    <a href="#zh">中文</a>
+  </nav>
+
+  <div class="body-en" lang="en">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 2026-08-07</p>
+
+    <p>
+      Wake cub (the &ldquo;App&rdquo;, &ldquo;we&rdquo;) is an alarm app with optional social
+      features that let friends see each other&rsquo;s wake-up status, send each other wake-up
+      nudges, and attach a short text, voice or photo message to those nudges. This policy
+      explains what we collect, why, and your choices.
+    </p>
+
+    <h2>What stays on your device</h2>
+    <ul>
+      <li><strong>Your alarms and settings</strong> — stored only on your device.</li>
+      <li>
+        <strong>The camera during a wake-up task</strong> — the wake-up tasks (brushing,
+        squats, punches, jogging, a place-photo match) use your camera <strong>on the device
+        only</strong> to verify you completed the task. That video is <strong>not
+        uploaded</strong> and is not seen by us or anyone else. A reference photo you set for
+        the photo task is stored on your device.
+      </li>
+    </ul>
+    <div class="card">
+      <p>
+        This applies to the wake-up tasks. A photo or voice message you choose to send a
+        friend is different — you are deliberately sending it to someone, so it is uploaded.
+        See &ldquo;Messages you send to friends&rdquo; below.
+      </p>
+    </div>
+
+    <h2>What we collect (only if you sign in for social features)</h2>
+    <p>
+      Social features are optional. If you do not sign in, we collect none of the following.
+    </p>
+    <ul>
+      <li>
+        <strong>Account</strong> — when you sign in with Apple, we receive an Apple-provided
+        user identifier, your email (which may be an Apple private-relay address), and, on
+        first sign-in, your name. Used to create and secure your account.
+      </li>
+      <li><strong>Profile</strong> — a display name and a friend code you can share.</li>
+      <li><strong>Friends</strong> — the connections you make (who you added, who added you).</li>
+      <li>
+        <strong>Wake status</strong> — timestamps for your alarm (when it is set to ring, when
+        its reminder window ends, and when you completed the task). We use these so your
+        friends can see whether you are asleep, oversleeping, or awake, and so the app can
+        allow a nudge only while you are oversleeping.
+      </li>
+      <li>
+        <strong>Push token</strong> — a notification token so friends&rsquo; nudges can reach
+        your device.
+      </li>
+      <li>
+        <strong>Nudge log</strong> — a record of nudges sent and received, used to prevent
+        spam (rate limiting).
+      </li>
+      <li>
+        <strong>Messages you send to friends</strong> — when you nudge a friend you may attach
+        a short text note, a voice recording, or a photo taken at that moment. These are
+        stored with the nudge so we can deliver them. <strong>The recipient can only open a
+        message after they have got up and completed their wake-up task</strong>; until then
+        it is withheld. Voice recordings and photos are <strong>deleted automatically after 7
+        days</strong>; you can also block a friend, which removes their messages from your
+        inbox. Messages are readable only by the friend you sent them to.
+      </li>
+      <li>
+        <strong>Anonymous usage events</strong> — a few basic events (app opened, alarm saved,
+        task completed, paywall shown) recorded against a random identifier generated on your
+        device. This is <strong>not linked to your account</strong> and is used only to
+        understand where people get stuck in the app. It is never used for advertising or
+        shared with advertisers.
+      </li>
+    </ul>
+    <p>
+      Your display name, friend code, and wake status are visible <strong>only to friends you
+      have mutually accepted</strong>. We do not sell your data or use it for advertising.
+    </p>
+
+    <h2>Approximate location (for weather)</h2>
+    <p>
+      To show local weather after you wake up, the app derives an <strong>approximate</strong>
+      location from your IP address using freeipapi.com, and fetches weather from MET Norway
+      (api.met.no). We do not store this location. If these requests fail, the weather card is
+      simply hidden.
+    </p>
+
+    <h2>Service providers</h2>
+    <ul>
+      <li><strong>Supabase</strong> — stores your account and social data.</li>
+      <li><strong>Expo</strong> — delivers push notifications (nudges).</li>
+      <li><strong>Apple</strong> — Sign in with Apple.</li>
+      <li><strong>RevenueCat</strong> — confirms your subscription status.</li>
+    </ul>
+
+    <h2>Data retention and deletion</h2>
+    <p>
+      We keep your social data while your account exists. You can <strong>delete your account
+      at any time from within the app</strong> (Friends screen → Delete account). Deletion is
+      permanent and removes your profile, friends, wake status, push tokens, nudge history,
+      and the messages you have sent or received (including any voice recordings and photos
+      attached to them).
+    </p>
+
+    <h2>Security</h2>
+    <p>
+      Data is transmitted over encrypted connections and protected by per-user access rules so
+      that only you and your accepted friends can read your data.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      Wake cub is rated 12+ and is not directed to children under 13 (or the minimum age in
+      your country), and we do not knowingly collect their data. The friend messaging features
+      let people send each other text, voice and photos, which is why the app is not intended
+      for younger children.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      We may update this policy; changes will be posted on this page with a new
+      &ldquo;last updated&rdquo; date.
+    </p>
+
+    <h2>Related documents</h2>
+    <p>
+      For the subscription terms, see the <a href="/terms.html">Terms of Use</a>.
+    </p>
+
+    <footer>
+      Questions or requests: ravenholo7@gmail.com ·
+      <a href="/">Back to home</a>
+    </footer>
+  </div>
+
+  <div class="body-zh" lang="zh-Hant">
+    <h1>隱私權政策</h1>
+    <p class="updated">最後更新：2026-08-07</p>
+
+    <p>
+      Wake cub（下稱「本 App」、「我們」）是一款鬧鐘 App，並提供選用的社交功能：
+      讓好友之間看見彼此的起床狀態、互相叫醒，並在叫醒時附上一則簡短的文字、語音或照片留言。
+      這份政策說明我們蒐集什麼、為什麼蒐集，以及你有哪些選擇。
+    </p>
+
+    <h2>只留在你裝置上的資料</h2>
+    <ul>
+      <li><strong>你的鬧鐘與設定</strong>——只儲存在你的裝置上。</li>
+      <li>
+        <strong>起床任務進行中的相機畫面</strong>——起床任務（刷牙、深蹲、揮拳、慢跑、
+        拍照比對）<strong>只在裝置上</strong>使用相機來確認你完成了任務。
+        該影像<strong>不會上傳</strong>，我們與任何其他人都看不到。
+        你為拍照任務設定的參考照片也儲存在你自己的裝置上。
+      </li>
+    </ul>
+    <div class="card">
+      <p>
+        以上是針對「起床任務」。你主動選擇傳給好友的照片或語音留言則不同——
+        那是你刻意要送給某個人的，因此會上傳。請見下方「你傳給好友的留言」。
+      </p>
+    </div>
+
+    <h2>我們蒐集的資料（僅在你登入以使用社交功能時）</h2>
+    <p>社交功能是選用的。若你不登入，以下資料我們一項都不會蒐集。</p>
+    <ul>
+      <li>
+        <strong>帳號</strong>——當你使用 Apple 登入時，我們會取得 Apple 提供的使用者識別碼、
+        你的電子郵件（可能是 Apple 的私密轉發地址），以及首次登入時的姓名。
+        用於建立並保護你的帳號。
+      </li>
+      <li><strong>個人檔案</strong>——顯示名稱，以及可分享的好友代碼。</li>
+      <li><strong>好友</strong>——你建立的好友關係（你加了誰、誰加了你）。</li>
+      <li>
+        <strong>起床狀態</strong>——你鬧鐘的時間戳記（預定響鈴時間、提醒時段結束時間、
+        以及你完成任務的時間）。用於讓好友看見你是睡著、賴床還是已起床，
+        並確保只有在你賴床時才能被叫醒。
+      </li>
+      <li><strong>推播 token</strong>——讓好友的叫醒通知能送達你的裝置。</li>
+      <li><strong>叫醒紀錄</strong>——傳送與接收的叫醒紀錄，用於防止濫用（頻率限制）。</li>
+      <li>
+        <strong>你傳給好友的留言</strong>——叫醒好友時，你可以附上一則簡短文字、
+        一段語音錄音，或一張當下拍攝的照片。這些內容會與該次叫醒一起儲存，以便送達。
+        <strong>收件者必須先起床並完成起床任務，才能開啟留言</strong>，在那之前留言不會顯示。
+        語音與照片會在 <strong>7 天後自動刪除</strong>；
+        你也可以封鎖好友，這會將對方的留言從你的收件匣中移除。
+        留言只有你傳送的對象讀得到。
+      </li>
+      <li>
+        <strong>匿名使用事件</strong>——少數基本事件（開啟 App、儲存鬧鐘、完成任務、
+        顯示付費頁面），記錄在一組於你裝置上產生的隨機識別碼之下。
+        這些資料<strong>不會連結到你的帳號</strong>，僅用於了解使用者在哪一步卡住。
+        絕不會用於廣告，也不會提供給廣告商。
+      </li>
+    </ul>
+    <p>
+      你的顯示名稱、好友代碼與起床狀態，<strong>只有雙方都已接受的好友</strong>看得到。
+      我們不會販售你的資料，也不會將其用於廣告。
+    </p>
+
+    <h2>粗略位置（用於天氣）</h2>
+    <p>
+      為了在你起床後顯示當地天氣，本 App 會透過 freeipapi.com 依你的 IP 位址推算出
+      <strong>粗略</strong>位置，並向 MET Norway（api.met.no）取得天氣資料。
+      我們不會儲存這個位置。若這些請求失敗，天氣卡片就不會顯示。
+    </p>
+
+    <h2>服務供應商</h2>
+    <ul>
+      <li><strong>Supabase</strong>——儲存你的帳號與社交資料。</li>
+      <li><strong>Expo</strong>——負責推播通知（叫醒）。</li>
+      <li><strong>Apple</strong>——Apple 登入。</li>
+      <li><strong>RevenueCat</strong>——確認你的訂閱狀態。</li>
+    </ul>
+
+    <h2>資料保存與刪除</h2>
+    <p>
+      在你的帳號存在期間，我們會保留你的社交資料。你可以
+      <strong>隨時在 App 內刪除帳號</strong>（好友頁面 → 刪除帳號）。
+      刪除是永久性的，會移除你的個人檔案、好友、起床狀態、推播 token、叫醒紀錄，
+      以及你傳送或收到的留言（包含附加的語音錄音與照片）。
+    </p>
+
+    <h2>安全性</h2>
+    <p>
+      資料透過加密連線傳輸，並受每位使用者各自的存取規則保護，
+      因此只有你與你已接受的好友讀得到你的資料。
+    </p>
+
+    <h2>兒童</h2>
+    <p>
+      Wake cub 的年齡分級為 12+，並非針對未滿 13 歲（或你所在國家之最低年齡）的兒童設計，
+      我們也不會在知情的情況下蒐集他們的資料。
+      好友留言功能讓使用者之間可以互傳文字、語音與照片，
+      這是本 App 不適合更年幼兒童的原因。
+    </p>
+
+    <h2>政策變更</h2>
+    <p>
+      我們可能會更新這份政策；異動會發布在本頁，並更新「最後更新」日期。
+    </p>
+
+    <h2>相關文件</h2>
+    <p>
+      訂閱相關條款請見<a href="/terms.html">使用條款</a>。
+    </p>
+
+    <footer>
+      問題或需求請聯絡：ravenholo7@gmail.com ·
+      <a href="/">返回首頁</a>
+    </footer>
+  </div>
+</main>
+</body>
+</html>

@@ -329,7 +329,7 @@ export default function Home() {
         <span>© 2026 Wake cub</span>
         <a
           className="underline-offset-4 hover:text-foreground hover:underline"
-          href="https://chilll1sn.github.io/wakecub-privacy/"
+          href="/privacy.html"
         >
           Privacy
         </a>
