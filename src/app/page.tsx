@@ -233,9 +233,42 @@ export default function Home() {
             </div>
           </div>
         </Reveal>
+
+        {/* Both of these are about the wake-up task, not about friends, which is
+            where they used to sit. The privacy claim especially: it is scoped to
+            the task camera, and a photo deliberately sent to a friend is not
+            covered by it. */}
+        <div className="mt-14 grid gap-5 md:grid-cols-2">
+          <Reveal>
+            <div className={`h-full ${panel}`}>
+              <h3 className="text-lg font-bold tracking-[-0.015em]">
+                The task camera never uploads
+              </h3>
+              <p className={`mt-2 text-pretty ${bodyText}`}>
+                Pose and object detection run entirely on-device. No frame of a
+                wake-up task is uploaded, stored, or sent anywhere. The camera is
+                a sensor, not a recorder.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className={`h-full ${panel}`}>
+              <h3 className="text-lg font-bold tracking-[-0.015em]">
+                Killing the app doesn&apos;t help
+              </h3>
+              <p className={`mt-2 text-pretty ${bodyText}`}>
+                Force-quit it, swipe the notification away, turn the volume
+                down. It keeps coming back. Getting rid of Wake cub is meant
+                to be harder than getting up.
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Friends leads here — it is the feature people tell each other about */}
+      {/* Friends leads here — it is the feature people tell each other about.
+          The nudge and the message it carries are one story, so they share the
+          lead panel: the task is the punishment, the note is what it pays out. */}
       <section className="border-t py-16 md:py-24">
         <div className="grid gap-5">
           <Reveal>
@@ -257,24 +290,25 @@ export default function Home() {
             <Reveal>
               <div className={`h-full ${panel}`}>
                 <h3 className="text-lg font-bold tracking-[-0.015em]">
-                  Nothing leaves your phone
+                  Leave them something for getting up
                 </h3>
                 <p className={`mt-2 text-pretty ${bodyText}`}>
-                  Pose and object detection run entirely on-device. No frame of
-                  video is uploaded, stored, or sent anywhere. The camera is a
-                  sensor, not a recorder.
+                  Attach a line of text, fifteen seconds of voice, or a photo you
+                  have to take right then — no camera roll, so you have to be
+                  awake and there. They can&apos;t read, hear or see it until the
+                  task is done and they&apos;re out of bed.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <div className={`h-full ${panel}`}>
                 <h3 className="text-lg font-bold tracking-[-0.015em]">
-                  Killing the app doesn&apos;t help
+                  You decide who gets to do that
                 </h3>
                 <p className={`mt-2 text-pretty ${bodyText}`}>
-                  Force-quit it, swipe the notification away, turn the volume
-                  down. It keeps coming back. Getting rid of Wake cub is meant
-                  to be harder than getting up.
+                  Every friend has their own switch, so the one who pokes you at
+                  6am can be turned off without touching anyone else. Blocking
+                  and reporting are a tap away in any message.
                 </p>
               </div>
             </Reveal>
