@@ -122,6 +122,36 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Language switch. Both translations ship in the one static export — there is
+   no server to negotiate on, and the app, App Store Connect and every shared
+   link all keep pointing at the same URL — so html[data-lang] picks between
+   them. This mirrors public/terms.html deliberately: English is the CSS
+   default, so a browser that never runs the head script still gets a readable
+   page, and the script only ever upgrades a Chinese reader to Chinese. */
+.lang-zh {
+  display: none;
+}
+[data-lang="zh"] .lang-zh {
+  display: revert;
+}
+[data-lang="zh"] .lang-en {
+  display: none;
+}
+
+/* The switch's active pill follows the same English-is-the-default rule, so it
+   agrees with whichever body is showing even before the script runs. */
+.lang-pill-en,
+[data-lang="zh"] .lang-pill-zh {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+[data-lang="zh"] .lang-pill-en {
+  border-color: var(--border);
+  background: none;
+  color: var(--muted-foreground);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

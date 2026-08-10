@@ -1,47 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { InviteBanner } from "@/components/invite-banner";
+import { LangSwitch } from "@/components/lang-switch";
 import { Reveal } from "@/components/reveal";
+import { copy, taskArt, type Copy } from "@/content/copy";
 import { APP_STORE_URL } from "@/lib/app-store";
 
-/* The three camera-verified tasks, each with the mascot actually doing it.
-   Animated WebP with transparency — plain <img> rather than next/image, because
-   static export can't run the optimizer and optimization would flatten the
-   animation to a single frame. */
-const tasks = [
-  {
-    art: "bear-squat-6fps.webp",
-    alt: "The bear dropping into a squat and standing back up",
-    title: "Squats",
-    body: "The camera tracks your hips and knees through every rep. Go down far enough or it doesn't count. Pick shallow, normal or deep, depending on how much you hate mornings.",
-  },
-  {
-    art: "bear-punch-6fps.webp",
-    alt: "The bear throwing alternating punches toward the camera",
-    title: "Punches",
-    body: "Throw punches at the phone. Each one has to extend and pull back like a real punch. Waving your arm around gets you nothing but a still-ringing alarm.",
-  },
-  {
-    art: "bear-walk-6fps.webp",
-    alt: "The bear jogging in place",
-    title: "Jogging in place",
-    body: "Run on the spot until the timer fills. Stop moving and the timer stops with you, so standing there catching your breath only makes the morning longer.",
-  },
-];
-
-/* The remaining tasks don't get their own art, so they read as a set of
-   capabilities rather than a run-on paragraph of bolded phrases. */
-const otherTasks = [
-  {
-    title: "Brushing your teeth",
-    body: "The camera has to see a real toothbrush in your hand.",
-  },
-  {
-    title: "A photo from home",
-    body: "Match a spot you chose the night before, so you have to leave the bedroom.",
-  },
-  { title: "Maths", body: "No camera. For quieter mornings." },
-  { title: "Vocabulary", body: "No camera. Answer to stop the ringing." },
-];
+/* Animated WebP with transparency — plain <img> rather than next/image,
+   because static export can't run the optimizer and optimization would flatten
+   the animation to a single frame. */
 
 const displayText =
   "text-[clamp(1.9rem,1.2rem+2.4vw,2.75rem)] font-extrabold tracking-[-0.03em]";
@@ -53,6 +19,8 @@ const bodyText = "text-[1.0625rem] leading-[1.6] text-muted-foreground";
 // One radius system for the page: 20px on every panel, full pill on anything
 // interactive or badge-like.
 const panel = "rounded-[20px] border bg-card/60 p-6 sm:p-8";
+const ctaButton =
+  "mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none";
 
 function TaskArt({
   art,
@@ -81,23 +49,16 @@ function TaskArt({
   );
 }
 
-export default function Home() {
+/**
+ * The whole page body for one language. Rendered twice — once per translation —
+ * with CSS showing exactly one (see .lang-en / .lang-zh in globals.css). One
+ * layout, two sets of strings, so the two languages cannot drift apart.
+ */
+function Page({ t }: { t: Copy }) {
+  const arts = [taskArt.squat, taskArt.punch, taskArt.walk];
+
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 sm:px-8">
-      <header className="flex items-center gap-3 py-6 text-lg font-extrabold tracking-tight">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/assets/icon.png"
-          alt=""
-          width={36}
-          height={36}
-          className="rounded-[10px]"
-        />
-        Wake cub
-      </header>
-
-      <InviteBanner />
-
+    <div lang={t.htmlLang}>
       {/* Hero — the bear sits in a pool of warm light, like a toy on a nightstand */}
       <section className="grid items-center gap-6 pb-20 pt-2 md:grid-cols-[1.05fr_0.95fr] md:gap-10 md:pb-28">
         <Reveal>
@@ -105,42 +66,24 @@ export default function Home() {
             variant="outline"
             className="mb-6 rounded-full px-4 py-1.5 text-[0.875rem] font-normal text-muted-foreground"
           >
-            Out now on iOS
+            {t.hero.badge}
           </Badge>
           <h1 className="text-balance text-[clamp(2.5rem,1.4rem+4.4vw,4.25rem)] font-black leading-[1] tracking-[-0.035em]">
-            Every other alarm can be turned off{" "}
-            <span className="text-primary">in your sleep.</span>
+            {t.hero.headlineLead}{" "}
+            <span className="text-primary">{t.hero.headlineAccent}</span>
           </h1>
           <p className={`mt-5 max-w-[36ch] text-pretty ${ledeText}`}>
-            Wake cub keeps ringing until the camera has watched you actually do
-            something.
+            {t.hero.lede}
           </p>
-          {/* Same desktop-only QR as the closing CTA, a size down: the hero
-              column is narrower, and the button beside it already carries the
-              wording, so this one goes without a label. */}
-          <div className="mt-8 flex items-center gap-5">
-            <a
-              href={APP_STORE_URL}
-              className="inline-flex h-12 shrink-0 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
-            >
-              Download on the App Store
-            </a>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/app-store-qr.svg"
-              alt="QR code linking to Wake cub on the App Store"
-              width={88}
-              height={88}
-              loading="lazy"
-              className="hidden size-[5.5rem] shrink-0 rounded-[10px] sm:block"
-            />
-          </div>
+          <a href={APP_STORE_URL} className={ctaButton}>
+            {t.hero.cta}
+          </a>
         </Reveal>
 
         <Reveal delay={0.12}>
           <TaskArt
-            art="bear-punch-6fps.webp"
-            alt="The Wake cub bear throwing punches at the camera"
+            art={taskArt.punch}
+            alt={t.hero.heroAlt}
             className="mx-auto aspect-square w-full max-w-[26rem]"
             priority
           />
@@ -153,22 +96,16 @@ export default function Home() {
           <h2
             className={`max-w-[22ch] text-balance leading-[1.08] ${displayText}`}
           >
-            Shake. Tap. Scan a barcode. All of it works lying down.
+            {t.problem.heading}
           </h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2 md:gap-10">
+            <p className={`text-pretty ${ledeText}`}>{t.problem.left}</p>
             <p className={`text-pretty ${ledeText}`}>
-              That&apos;s the problem with every &ldquo;hard to dismiss&rdquo;
-              alarm: the mission is something your thumb can finish while the
-              rest of you stays asleep. You solve it, you go back to bed, and you
-              oversleep anyway.
-            </p>
-            <p className={`text-pretty ${ledeText}`}>
-              Wake cub asks for your{" "}
+              {t.problem.rightBefore}
               <strong className="font-semibold text-foreground">
-                whole body
+                {t.problem.rightStrong}
               </strong>
-              , and it uses the camera to check. There is no way to fake a squat
-              from under the duvet.
+              {t.problem.rightAfter}
             </p>
           </div>
         </Reveal>
@@ -182,27 +119,27 @@ export default function Home() {
               className={`grid items-center gap-6 sm:grid-cols-[0.9fr_1.1fr] sm:gap-10 ${panel}`}
             >
               <TaskArt
-                art={tasks[0].art}
-                alt={tasks[0].alt}
+                art={arts[0]}
+                alt={t.tasks[0].alt}
                 className="aspect-square w-full"
               />
               <div>
                 <h3 className={`text-balance leading-[1.05] ${displayText}`}>
-                  {tasks[0].title}
+                  {t.tasks[0].title}
                 </h3>
                 <p className={`mt-3 max-w-[42ch] text-pretty ${bodyText}`}>
-                  {tasks[0].body}
+                  {t.tasks[0].body}
                 </p>
               </div>
             </article>
           </Reveal>
 
           <div className="grid gap-5 md:grid-cols-2">
-            {tasks.slice(1).map((task, i) => (
+            {t.tasks.slice(1).map((task, i) => (
               <Reveal key={task.title} delay={i * 0.1}>
                 <article className={`h-full ${panel}`}>
                   <TaskArt
-                    art={task.art}
+                    art={arts[i + 1]}
                     alt={task.alt}
                     className="mx-auto aspect-[4/3] w-full max-w-[18rem]"
                   />
@@ -221,54 +158,21 @@ export default function Home() {
         <Reveal>
           <div className="mt-14">
             <h3 className="text-lg font-bold tracking-[-0.015em]">
-              Four more ways to get out of bed
+              {t.otherTasksHeading}
             </h3>
             <div className="mt-5 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-              {otherTasks.map((t) => (
-                <div key={t.title} className="border-t pt-4">
-                  <p className="font-semibold text-foreground">{t.title}</p>
-                  <p className={`mt-1 text-pretty ${bodyText}`}>{t.body}</p>
+              {t.otherTasks.map((task) => (
+                <div key={task.title} className="border-t pt-4">
+                  <p className="font-semibold text-foreground">{task.title}</p>
+                  <p className={`mt-1 text-pretty ${bodyText}`}>{task.body}</p>
                 </div>
               ))}
             </div>
           </div>
         </Reveal>
-
-        {/* Both of these are about the wake-up task, not about friends, which is
-            where they used to sit. The privacy claim especially: it is scoped to
-            the task camera, and a photo deliberately sent to a friend is not
-            covered by it. */}
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
-          <Reveal>
-            <div className={`h-full ${panel}`}>
-              <h3 className="text-lg font-bold tracking-[-0.015em]">
-                The task camera never uploads
-              </h3>
-              <p className={`mt-2 text-pretty ${bodyText}`}>
-                Pose and object detection run entirely on-device. No frame of a
-                wake-up task is uploaded, stored, or sent anywhere. The camera is
-                a sensor, not a recorder.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className={`h-full ${panel}`}>
-              <h3 className="text-lg font-bold tracking-[-0.015em]">
-                Killing the app doesn&apos;t help
-              </h3>
-              <p className={`mt-2 text-pretty ${bodyText}`}>
-                Force-quit it, swipe the notification away, turn the volume
-                down. It keeps coming back. Getting rid of Wake cub is meant
-                to be harder than getting up.
-              </p>
-            </div>
-          </Reveal>
-        </div>
       </section>
 
-      {/* Friends leads here — it is the feature people tell each other about.
-          The nudge and the message it carries are one story, so they share the
-          lead panel: the task is the punishment, the note is what it pays out. */}
+      {/* Friends leads here — it is the feature people tell each other about */}
       <section className="border-t py-16 md:py-24">
         <div className="grid gap-5">
           <Reveal>
@@ -276,42 +180,25 @@ export default function Home() {
               className={`${panel} bg-[radial-gradient(120%_140%_at_12%_0%,color-mix(in_oklch,var(--primary)_16%,transparent)_0%,transparent_58%)]`}
             >
               <h3 className={`max-w-[16ch] text-balance ${displayText}`}>
-                Set off a friend&apos;s alarm
+                {t.friends.title}
               </h3>
               <p className={`mt-3 max-w-[52ch] text-pretty ${ledeText}`}>
-                Catch a friend still asleep and you can ring their phone yourself
-                and choose the task they have to finish to stop it. Pick
-                squats, and they are doing squats.
+                {t.friends.body}
               </p>
             </div>
           </Reveal>
 
           <div className="grid gap-5 md:grid-cols-2">
-            <Reveal>
-              <div className={`h-full ${panel}`}>
-                <h3 className="text-lg font-bold tracking-[-0.015em]">
-                  Leave them something for getting up
-                </h3>
-                <p className={`mt-2 text-pretty ${bodyText}`}>
-                  Attach a line of text, fifteen seconds of voice, or a photo you
-                  have to take right then — no camera roll, so you have to be
-                  awake and there. They can&apos;t read, hear or see it until the
-                  task is done and they&apos;re out of bed.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className={`h-full ${panel}`}>
-                <h3 className="text-lg font-bold tracking-[-0.015em]">
-                  You decide who gets to do that
-                </h3>
-                <p className={`mt-2 text-pretty ${bodyText}`}>
-                  Every friend has their own switch, so the one who pokes you at
-                  6am can be turned off without touching anyone else. Blocking
-                  and reporting are a tap away in any message.
-                </p>
-              </div>
-            </Reveal>
+            {t.guarantees.map((g, i) => (
+              <Reveal key={g.title} delay={i * 0.1}>
+                <div className={`h-full ${panel}`}>
+                  <h3 className="text-lg font-bold tracking-[-0.015em]">
+                    {g.title}
+                  </h3>
+                  <p className={`mt-2 text-pretty ${bodyText}`}>{g.body}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -322,56 +209,30 @@ export default function Home() {
           <p
             className={`mx-auto max-w-[18ch] text-balance leading-[1.1] ${displayText}`}
           >
-            You can&apos;t argue with a bear that won&apos;t stop shouting.
+            {t.closing.line}
           </p>
           <p className={`mx-auto mt-5 max-w-[44ch] text-pretty ${bodyText}`}>
-            Wake cub is on the App Store. Free to download, with the
-            camera-verified tasks available on subscription.
+            {t.closing.body}
           </p>
-          {/* The QR is for desktop readers, who can't tap the button with the
-              phone they'd install on. It carries its own white plate because
-              the site is dark-only and inverted codes scan unreliably. */}
-          <div className="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-7">
-            <a
-              href={APP_STORE_URL}
-              className="inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
-            >
-              Download on the App Store
-            </a>
-            <div className="hidden items-center gap-3 sm:flex">
-              <div className="h-10 w-px bg-border" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/assets/app-store-qr.svg"
-                alt="QR code linking to Wake cub on the App Store"
-                width={104}
-                height={104}
-                loading="lazy"
-                className="size-[6.5rem] rounded-[10px]"
-              />
-              <p className="text-left text-sm leading-[1.45] text-muted-foreground">
-                Or point your
-                <br />
-                camera here
-              </p>
-            </div>
-          </div>
+          <a href={APP_STORE_URL} className={ctaButton}>
+            {t.closing.cta}
+          </a>
         </Reveal>
       </section>
 
       <footer className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t py-8 text-sm text-muted-foreground">
-        <span>© 2026 Wake cub</span>
+        <span>{t.footer.rights}</span>
         <a
           className="underline-offset-4 hover:text-foreground hover:underline"
           href="/privacy.html"
         >
-          Privacy
+          {t.footer.privacy}
         </a>
         <a
           className="underline-offset-4 hover:text-foreground hover:underline"
           href="/terms.html"
         >
-          Terms
+          {t.footer.terms}
         </a>
         <a
           className="underline-offset-4 hover:text-foreground hover:underline sm:ml-auto"
@@ -380,6 +241,34 @@ export default function Home() {
           ravenholo7@gmail.com
         </a>
       </footer>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="mx-auto w-full max-w-5xl px-6 sm:px-8">
+      <header className="flex items-center gap-3 py-6 text-lg font-extrabold tracking-tight">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/assets/icon.png"
+          alt=""
+          width={36}
+          height={36}
+          className="rounded-[10px]"
+        />
+        Wake cub
+        <LangSwitch className="ml-auto" />
+      </header>
+
+      <InviteBanner />
+
+      <div className="lang-en">
+        <Page t={copy.en} />
+      </div>
+      <div className="lang-zh">
+        <Page t={copy.zh} />
+      </div>
     </main>
   );
 }
