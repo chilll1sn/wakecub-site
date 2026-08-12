@@ -1,7 +1,7 @@
 /**
- * Every visible string on the landing page, in both languages.
+ * Every visible string on the landing page, in all three languages.
  *
- * Both translations ship in the one static export and CSS picks between them
+ * Every translation ships in the one static export and CSS picks between them
  * (see the head script in layout.tsx) — the same mechanism the legal pages
  * already use in public/terms.html, kept consistent on purpose.
  *
@@ -9,6 +9,13 @@
  * English version's habit of needling you about staying in bed. Task names
  * match the ones already established in terms.html and privacy.html
  * (深蹲, 揮拳, 慢跑, 刷牙, 拍照比對) so the site and the App agree.
+ *
+ * The Japanese deliberately pulls the needling BACK a notch. The English and
+ * Chinese taunt the reader outright ("you can't argue with a bear"); Japanese
+ * marketing copy that talks down to the reader that hard reads as rude rather
+ * than funny, so the jokes stay and the accusations soften. Task names match
+ * the App's own ja strings in src/settings/i18n.ts (スクワット, パンチ,
+ * その場ジョギング, 歯みがき) so the site and the App agree here too.
  */
 
 /* Artwork is shared between languages, so the filename lives outside the
@@ -22,9 +29,16 @@ export const taskArt = {
 type Task = { alt: string; title: string; body: string };
 type Item = { title: string; body: string };
 
+/* The language codes the site ships, in the order the switcher shows them.
+   Everything else — the CSS classes, the head script, the switcher pills — is
+   derived from this, so adding a fourth language is a matter of extending this
+   list and writing the strings. */
+export const LANGS = ["en", "zh", "ja"] as const;
+export type Lang = (typeof LANGS)[number];
+
 export type Copy = {
   htmlLang: string;
-  nav: { en: string; zh: string };
+  nav: Record<Lang, string>;
   hero: {
     badge: string;
     headlineLead: string;
@@ -51,9 +65,15 @@ export type Copy = {
   };
 };
 
+/* The switcher shows every language in its OWN name, identically in all three
+   translations — someone who lands on the Japanese page and wants English is
+   looking for the word "English", not for その言語の日本語名. So this object is
+   shared rather than repeated per translation. */
+const nav: Record<Lang, string> = { en: "English", zh: "中文", ja: "日本語" };
+
 const en: Copy = {
   htmlLang: "en",
-  nav: { en: "English", zh: "中文" },
+  nav,
   hero: {
     badge: "Out now on iOS",
     headlineLead: "Every other alarm can be turned off",
@@ -136,7 +156,7 @@ const en: Copy = {
 
 const zh: Copy = {
   htmlLang: "zh-Hant",
-  nav: { en: "English", zh: "中文" },
+  nav,
   hero: {
     badge: "iOS 版已上架",
     headlineLead: "其他鬧鐘，你閉著眼睛",
@@ -217,4 +237,87 @@ const zh: Copy = {
   },
 };
 
-export const copy = { en, zh } as const;
+const ja: Copy = {
+  htmlLang: "ja",
+  nav,
+  hero: {
+    badge: "iOS版 配信中",
+    headlineLead: "ほかの目覚ましは、寝たまま",
+    headlineAccent: "止められる。",
+    lede: "Wake cub は、あなたが実際に体を動かしたことをカメラが確認するまで鳴り続けます。",
+    cta: "App Store でダウンロード",
+    heroAlt: "カメラに向かってパンチを繰り出す Wake cub のクマ",
+  },
+  problem: {
+    heading: "振る、タップする、バーコードを読む。全部、寝たままできます。",
+    left: "「止めにくい目覚まし」の弱点はここにあります。ミッションは指先だけで片づいてしまい、体はまだ眠ったまま。解除して、二度寝して、結局また寝坊する。",
+    rightBefore: "Wake cub が求めるのは",
+    rightStrong: "体ぜんぶ",
+    rightAfter: "。しかもカメラで確認します。布団の中からスクワットをごまかす方法はありません。",
+  },
+  tasks: [
+    {
+      alt: "しゃがんで立ち上がるクマ",
+      title: "スクワット",
+      body: "カメラが腰と膝を1回ずつ追いかけます。十分に下ろさなければカウントされません。深さは浅め・普通・深めから選べます。朝がどれくらい苦手かに合わせてどうぞ。",
+    },
+    {
+      alt: "カメラに向かって左右のパンチを打つクマ",
+      title: "パンチ",
+      body: "スマホに向かってパンチ。1発ごとに、しっかり伸ばして引き戻すところまでが1回です。腕を適当に振っても進みません。アラームが鳴り続けるだけです。",
+    },
+    {
+      alt: "その場で駆け足をするクマ",
+      title: "その場ジョギング",
+      body: "タイマーが満ちるまでその場で走ります。足を止めるとタイマーも止まるので、立ち止まって息を整えるほど朝が長くなります。",
+    },
+  ],
+  otherTasksHeading: "ベッドから出る方法は、あと4つ",
+  otherTasks: [
+    {
+      title: "歯みがき",
+      body: "手に持った本物の歯ブラシを、カメラが認識します。",
+    },
+    {
+      title: "指定した場所で撮影",
+      body: "前の晩に決めた場所と照合。寝室から出るしかありません。",
+    },
+    { title: "計算", body: "カメラなし。静かに始めたい朝に。" },
+    { title: "単語", body: "カメラなし。正解すると鳴りやみます。" },
+  ],
+  friends: {
+    title: "寝ている友だちのアラームを鳴らす",
+    body: "友だちがまだ寝ていると分かったら、その人のスマホを自分で鳴らせます。解除に必要なタスクを選ぶのもあなた。スクワットを選べば、相手はスクワットをすることになります。",
+  },
+  guarantees: [
+    {
+      title: "映像は端末から出ません",
+      body: "姿勢と物体の認識はすべて端末上で処理されます。映像は1フレームたりともアップロードも保存もされず、どこにも送信されません。カメラはここではセンサーであって、レコーダーではありません。",
+    },
+    {
+      title: "アプリを終了しても無駄です",
+      body: "強制終了しても、通知をスワイプで消しても、音量を下げても、また戻ってきます。Wake cub から逃げるより、起きるほうが簡単なように作ってあります。",
+    },
+  ],
+  closing: {
+    line: "叫び続けるクマとは、話し合いになりません。",
+    body: "ダウンロードは無料。カメラで確認するタスクはサブスクリプションでご利用いただけます。",
+    cta: "App Store でダウンロード",
+  },
+  footer: { rights: "© 2026 Wake cub", privacy: "プライバシー", terms: "利用規約" },
+  notFound: {
+    heading: "このページは二度寝しました。",
+    bodyBefore: "お探しのページが見つかりませんでした。",
+    link: "トップページへ戻る",
+    bodyAfter: "。",
+  },
+  invite: {
+    intro: "友だちがあなたを Wake cub に招待しました。フレンドコード：",
+    download: "App Store でダウンロード",
+    copy: "コードをコピー",
+    copied: "コピーしました",
+    outro: "App Store へ移動します。インストール後、「フレンド」タブでこのコードを入力してください。",
+  },
+};
+
+export const copy = { en, zh, ja } as const;

@@ -31,31 +31,61 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title, description },
   alternates: {
     canonical: "https://wakecub.app",
-    // Both languages live at the same URL: output:"export" emits a single
+    // Every language lives at the same URL: output:"export" emits a single
     // index.html, so there is no separate document to point a locale at.
-    languages: { en: "https://wakecub.app", "zh-Hant": "https://wakecub.app" },
+    languages: {
+      en: "https://wakecub.app",
+      "zh-Hant": "https://wakecub.app",
+      ja: "https://wakecub.app",
+    },
   },
 };
 
-/* Runs in <head>, before first paint, so a Chinese reader never sees the
-   English flash first. Ported from public/terms.html so the whole site decides
-   language the same way. Order of precedence: an explicit #zh / #en in the URL
-   always wins (it is how someone overrides the guess, and how the toggle
-   works), otherwise fall back to what the browser asks for. */
+/* Runs in <head>, before first paint, so a Japanese or Chinese reader never
+   sees the English flash first. Ported from public/terms.html so the whole site
+   decides language the same way. Order of precedence: an explicit #ja / #zh /
+   #en in the URL always wins (it is how someone overrides the guess, and how
+   the toggle works), otherwise fall back to what the browser asks for.
+
+   The browser guess walks navigator.languages IN ORDER and takes the first
+   entry that matches any translation, rather than testing one language against
+   the whole list at a time. That ordering is the user's own preference ranking,
+   so someone who lists Japanese above Chinese gets Japanese — testing per
+   language instead would let whichever we happened to check first win. */
 const langScript = `(function () {
   var root = document.documentElement;
+  // Prefix -> the value used for data-lang and the CSS classes. "zh" matches
+  // zh-TW, zh-Hant, zh-CN and friends alike, since the one Chinese translation
+  // serves all of them better than English does.
+  var known = ["zh", "ja"];
+  // What each one claims as the document language, for screen readers.
+  var htmlLang = { zh: "zh-Hant", ja: "ja", en: "en" };
+
+  // Matched by string comparison rather than a RegExp: this script lives inside
+  // a JS template literal, and a "\\b" written there needs a level of escaping
+  // that is easy to get wrong and silently produces a pattern matching nothing
+  // (which reads as "everyone gets English"). Comparing the subtag directly has
+  // no escaping to get wrong. A tag matches when it IS the code or when the
+  // code is followed by "-", so "ja" and "ja-JP" match while "javanese" does not.
+  function matches(tag, code) {
+    tag = tag.toLowerCase();
+    return tag === code || tag.indexOf(code + "-") === 0;
+  }
 
   function pick() {
     var hash = location.hash;
-    if (hash === "#zh") return "zh";
+    for (var k = 0; k < known.length; k++) {
+      if (hash === "#" + known[k]) return known[k];
+    }
     if (hash === "#en") return "en";
-    // navigator.languages covers the case where Chinese is a secondary
-    // preference; "zh" matches zh-TW, zh-Hant, zh-CN and friends alike,
-    // since the one translation we have serves all of them better than
-    // English does.
+
+    // Walked in the user's own preference order, so the first entry that names
+    // a language we ship wins.
     var langs = navigator.languages || [navigator.language || ""];
     for (var i = 0; i < langs.length; i++) {
-      if (/^zh\\b/i.test(langs[i])) return "zh";
+      for (var j = 0; j < known.length; j++) {
+        if (matches(langs[i] || "", known[j])) return known[j];
+      }
     }
     return "en";
   }
@@ -65,7 +95,7 @@ const langScript = `(function () {
     root.setAttribute("data-lang", lang);
     // Keep the document's own language honest for screen readers, which
     // announce the page in whatever this claims.
-    root.setAttribute("lang", lang === "zh" ? "zh-Hant" : "en");
+    root.setAttribute("lang", htmlLang[lang] || "en");
   }
 
   apply();

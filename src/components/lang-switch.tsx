@@ -1,4 +1,4 @@
-import { copy } from "@/content/copy";
+import { copy, LANGS } from "@/content/copy";
 
 /**
  * Plain anchors, no JavaScript of its own: the head script in layout.tsx
@@ -17,13 +17,19 @@ export function LangSwitch({ className = "" }: { className?: string }) {
   return (
     <nav className={`flex items-center gap-1.5 ${className}`} aria-label="Language">
       {/* The active pill is CSS-driven so it stays correct on the very first
-          paint, before any script has told React which language won. */}
-      <a href="#en" className={`${pill} lang-pill-en`} lang="en">
-        {copy.en.nav.en}
-      </a>
-      <a href="#zh" className={`${pill} lang-pill-zh`} lang="zh-Hant">
-        {copy.zh.nav.zh}
-      </a>
+          paint, before any script has told React which language won. Each pill
+          is tagged with its OWN lang so a screen reader pronounces 日本語 and
+          中文 correctly while reading an otherwise English page. */}
+      {LANGS.map((lang) => (
+        <a
+          key={lang}
+          href={`#${lang}`}
+          className={`${pill} lang-pill-${lang}`}
+          lang={copy[lang].htmlLang}
+        >
+          {copy.en.nav[lang]}
+        </a>
+      ))}
     </nav>
   );
 }

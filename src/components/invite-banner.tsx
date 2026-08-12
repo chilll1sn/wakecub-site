@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { copy as strings } from "@/content/copy";
+import { copy as strings, LANGS } from "@/content/copy";
 import { APP_STORE_URL } from "@/lib/app-store";
 
 /**
@@ -51,9 +51,9 @@ export function InviteBanner() {
 
   return (
     <aside className="mb-10 rounded-[20px] border bg-card px-6 py-6">
-      {/* Both languages render; CSS shows one. The code itself is language
+      {/* Every language renders; CSS shows one. The code itself is language
           neutral and sits outside the switch so it is never duplicated. */}
-      {(["en", "zh"] as const).map((lang) => (
+      {LANGS.map((lang) => (
         <p key={lang} className={`lang-${lang} text-sm text-muted-foreground`}>
           {strings[lang].invite.intro}
         </p>
@@ -67,7 +67,7 @@ export function InviteBanner() {
           href={APP_STORE_URL}
           className="inline-flex h-12 items-center rounded-full bg-primary px-7 text-[1rem] font-semibold text-primary-foreground transition-transform duration-200 hover:brightness-105 active:scale-[0.98] motion-reduce:transition-none"
         >
-          {(["en", "zh"] as const).map((lang) => (
+          {LANGS.map((lang) => (
             <span key={lang} className={`lang-${lang}`}>
               {strings[lang].invite.download}
             </span>
@@ -78,7 +78,7 @@ export function InviteBanner() {
           onClick={copy}
           className="inline-flex h-12 items-center rounded-full border px-6 text-[1rem] font-semibold transition-colors hover:bg-accent"
         >
-          {(["en", "zh"] as const).map((lang) => (
+          {LANGS.map((lang) => (
             <span key={lang} className={`lang-${lang}`}>
               {copied ? strings[lang].invite.copied : strings[lang].invite.copy}
             </span>
@@ -86,7 +86,7 @@ export function InviteBanner() {
         </button>
       </div>
 
-      {(["en", "zh"] as const).map((lang) => (
+      {LANGS.map((lang) => (
         <p
           key={lang}
           className={`lang-${lang} mt-4 text-sm text-muted-foreground`}

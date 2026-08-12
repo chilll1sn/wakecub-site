@@ -122,31 +122,42 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Language switch. Both translations ship in the one static export — there is
+/* Language switch. Every translation ships in the one static export — there is
    no server to negotiate on, and the app, App Store Connect and every shared
    link all keep pointing at the same URL — so html[data-lang] picks between
    them. This mirrors public/terms.html deliberately: English is the CSS
    default, so a browser that never runs the head script still gets a readable
-   page, and the script only ever upgrades a Chinese reader to Chinese. */
-.lang-zh {
+   page, and the script only ever upgrades a reader to their own language.
+
+   Written as "hide every non-English body, then reveal the one that matches"
+   rather than the older "zh vs everything else" pair: with three languages, a
+   rule that only knows how to hide English would leave Chinese and Japanese
+   showing at the same time. Adding a fourth language means adding it to the
+   two selector lists below and nothing more. */
+.lang-zh,
+.lang-ja {
   display: none;
 }
-[data-lang="zh"] .lang-zh {
+[data-lang="zh"] .lang-zh,
+[data-lang="ja"] .lang-ja {
   display: revert;
 }
-[data-lang="zh"] .lang-en {
+[data-lang="zh"] .lang-en,
+[data-lang="ja"] .lang-en {
   display: none;
 }
 
 /* The switch's active pill follows the same English-is-the-default rule, so it
    agrees with whichever body is showing even before the script runs. */
 .lang-pill-en,
-[data-lang="zh"] .lang-pill-zh {
+[data-lang="zh"] .lang-pill-zh,
+[data-lang="ja"] .lang-pill-ja {
   border-color: var(--primary);
   background: var(--primary);
   color: var(--primary-foreground);
 }
-[data-lang="zh"] .lang-pill-en {
+[data-lang="zh"] .lang-pill-en,
+[data-lang="ja"] .lang-pill-en {
   border-color: var(--border);
   background: none;
   color: var(--muted-foreground);

@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { InviteBanner } from "@/components/invite-banner";
 import { LangSwitch } from "@/components/lang-switch";
 import { Reveal } from "@/components/reveal";
-import { copy, taskArt, type Copy } from "@/content/copy";
+import { copy, taskArt, LANGS, type Copy } from "@/content/copy";
 import { APP_STORE_URL } from "@/lib/app-store";
 
 /* Animated WebP with transparency — plain <img> rather than next/image,
@@ -50,9 +50,9 @@ function TaskArt({
 }
 
 /**
- * The whole page body for one language. Rendered twice — once per translation —
- * with CSS showing exactly one (see .lang-en / .lang-zh in globals.css). One
- * layout, two sets of strings, so the two languages cannot drift apart.
+ * The whole page body for one language. Rendered once per translation, with CSS
+ * showing exactly one (see the .lang-* rules in globals.css). One layout, three
+ * sets of strings, so the languages cannot drift apart.
  */
 function Page({ t }: { t: Copy }) {
   const arts = [taskArt.squat, taskArt.punch, taskArt.walk];
@@ -263,12 +263,11 @@ export default function Home() {
 
       <InviteBanner />
 
-      <div className="lang-en">
-        <Page t={copy.en} />
-      </div>
-      <div className="lang-zh">
-        <Page t={copy.zh} />
-      </div>
+      {LANGS.map((lang) => (
+        <div key={lang} className={`lang-${lang}`}>
+          <Page t={copy[lang]} />
+        </div>
+      ))}
     </main>
   );
 }

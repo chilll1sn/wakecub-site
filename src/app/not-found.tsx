@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { InviteBanner } from "@/components/invite-banner";
 import { LangSwitch } from "@/components/lang-switch";
-import { copy } from "@/content/copy";
+import { copy, LANGS } from "@/content/copy";
 
 /**
  * Static export writes this to 404.html, which GitHub Pages serves for any
@@ -33,7 +33,7 @@ export default function NotFound() {
 
       <InviteBanner />
 
-      {(["en", "zh"] as const).map((lang) => {
+      {LANGS.map((lang) => {
         const t = copy[lang];
         return (
           <div key={lang} className={`lang-${lang}`} lang={t.htmlLang}>
