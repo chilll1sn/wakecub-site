@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { copy as strings, LANGS } from "@/content/copy";
 import { APP_STORE_URL } from "@/lib/app-store";
@@ -22,20 +22,35 @@ import { APP_STORE_URL } from "@/lib/app-store";
  */
 const REDIRECT_MS = 1200;
 
+/* The code is READ from the URL, not state this component owns: it is fixed for
+   the lifetime of the page and nothing here ever changes it. Reading it through
+   useSyncExternalStore rather than an effect that calls setState says exactly
+   that, and avoids the extra render an effect would cost before the banner can
+   paint. The subscribe callback is a no-op for the same reason — the path
+   cannot change under a static export without a full navigation.
+
+   getServerSnapshot returns null because this page is prerendered at build
+   time, where there is no location. That is also what makes the markup match on
+   hydration: the server renders nothing, and the code appears on the client's
+   first commit. */
+const subscribe = () => () => {};
+const readCode = () =>
+  window.location.pathname.match(/^\/i\/([A-Za-z0-9]{8})\/?$/)?.[1].toUpperCase() ?? null;
+const noCode = () => null;
+
 export function InviteBanner() {
-  const [code, setCode] = useState<string | null>(null);
+  const code = useSyncExternalStore(subscribe, readCode, noCode);
   const [copied, setCopied] = useState(false);
 
+  // The redirect IS a real effect: it reaches outside React to schedule a
+  // navigation, and it must be cancelled if this unmounts before it fires.
   useEffect(() => {
-    const m = window.location.pathname.match(/^\/i\/([A-Za-z0-9]{8})\/?$/);
-    if (!m) return;
-    setCode(m[1].toUpperCase());
-
+    if (!code) return;
     const t = setTimeout(() => {
       window.location.href = APP_STORE_URL;
     }, REDIRECT_MS);
     return () => clearTimeout(t);
-  }, []);
+  }, [code]);
 
   if (!code) return null;
 
