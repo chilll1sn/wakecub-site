@@ -130,34 +130,58 @@
    page, and the script only ever upgrades a reader to their own language.
 
    Written as "hide every non-English body, then reveal the one that matches"
-   rather than the older "zh vs everything else" pair: with three languages, a
-   rule that only knows how to hide English would leave Chinese and Japanese
-   showing at the same time. Adding a fourth language means adding it to the
-   two selector lists below and nothing more. */
+   rather than the older "zh vs everything else" pair: with more than two
+   languages, a rule that only knows how to hide English would leave several
+   showing at once.
+
+   Each language is still named explicitly rather than matched by a wildcard on
+   the class prefix: a wildcard would also swallow any future utility class that
+   happened to contain "lang-", and a body block that silently disappears is a
+   much worse failure than a line missed here. Adding a language means adding it
+   to the three lists below. */
 .lang-zh,
-.lang-ja {
+.lang-zhHans,
+.lang-ja,
+.lang-ko {
   display: none;
 }
+/* Exactly one body block matches whatever the head script chose. */
+[data-lang="en"] .lang-en,
 [data-lang="zh"] .lang-zh,
-[data-lang="ja"] .lang-ja {
+[data-lang="zhHans"] .lang-zhHans,
+[data-lang="ja"] .lang-ja,
+[data-lang="ko"] .lang-ko {
   display: revert;
 }
-[data-lang="zh"] .lang-en,
-[data-lang="ja"] .lang-en {
+/* Any non-English document hides the English body. English needs no rule: it
+   is the CSS default, so a browser that never runs the head script still gets
+   a readable page. */
+html[data-lang]:not([data-lang="en"]) .lang-en {
   display: none;
+}
+
+/* Korean only. Hangul has no per-character break opportunity the way Chinese and
+   Japanese do: the default anywhere-breaking splits 알람 from its particle 은
+   mid-word, which reads as a typo in a headline. keep-all breaks at spaces
+   instead, the standard treatment for Korean text. Deliberately NOT applied to
+   zh/ja, where breaking between characters is correct and keep-all would leave
+   whole sentences unwrapped. */
+[data-lang="ko"] .lang-ko {
+  word-break: keep-all;
 }
 
 /* The switch's active pill follows the same English-is-the-default rule, so it
    agrees with whichever body is showing even before the script runs. */
 .lang-pill-en,
 [data-lang="zh"] .lang-pill-zh,
-[data-lang="ja"] .lang-pill-ja {
+[data-lang="zhHans"] .lang-pill-zhHans,
+[data-lang="ja"] .lang-pill-ja,
+[data-lang="ko"] .lang-pill-ko {
   border-color: var(--primary);
   background: var(--primary);
   color: var(--primary-foreground);
 }
-[data-lang="zh"] .lang-pill-en,
-[data-lang="ja"] .lang-pill-en {
+html[data-lang]:not([data-lang="en"]) .lang-pill-en {
   border-color: var(--border);
   background: none;
   color: var(--muted-foreground);

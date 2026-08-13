@@ -36,16 +36,19 @@ export const metadata: Metadata = {
     languages: {
       en: "https://wakecub.app",
       "zh-Hant": "https://wakecub.app",
+      "zh-Hans": "https://wakecub.app",
       ja: "https://wakecub.app",
+      ko: "https://wakecub.app",
     },
   },
 };
 
-/* Runs in <head>, before first paint, so a Japanese or Chinese reader never
-   sees the English flash first. Ported from public/terms.html so the whole site
-   decides language the same way. Order of precedence: an explicit #ja / #zh /
-   #en in the URL always wins (it is how someone overrides the guess, and how
-   the toggle works), otherwise fall back to what the browser asks for.
+/* Runs in <head>, before first paint, so a Japanese, Korean or Chinese reader
+   never sees the English flash first. Ported from public/terms.html so the whole
+   site decides language the same way. Order of precedence: an explicit
+   #ja / #ko / #zh / #zhHans / #en in the URL always wins (it is how someone
+   overrides the guess, and how the toggle works), otherwise fall back to what
+   the browser asks for.
 
    The browser guess walks navigator.languages IN ORDER and takes the first
    entry that matches any translation, rather than testing one language against
@@ -54,12 +57,10 @@ export const metadata: Metadata = {
    language instead would let whichever we happened to check first win. */
 const langScript = `(function () {
   var root = document.documentElement;
-  // Prefix -> the value used for data-lang and the CSS classes. "zh" matches
-  // zh-TW, zh-Hant, zh-CN and friends alike, since the one Chinese translation
-  // serves all of them better than English does.
-  var known = ["zh", "ja"];
+  // The hash values and data-lang values the site answers to.
+  var known = ["zh", "zhHans", "ja", "ko"];
   // What each one claims as the document language, for screen readers.
-  var htmlLang = { zh: "zh-Hant", ja: "ja", en: "en" };
+  var htmlLang = { zh: "zh-Hant", zhHans: "zh-Hans", ja: "ja", ko: "ko", en: "en" };
 
   // Matched by string comparison rather than a RegExp: this script lives inside
   // a JS template literal, and a "\\b" written there needs a level of escaping
@@ -70,6 +71,21 @@ const langScript = `(function () {
   function matches(tag, code) {
     tag = tag.toLowerCase();
     return tag === code || tag.indexOf(code + "-") === 0;
+  }
+
+  // Chinese is the one language where the base subtag is not enough: zh-Hans-CN
+  // and zh-Hant-TW both start "zh" but are different pages. Browsers spell it
+  // either way — an explicit script ("zh-Hans") or a region that implies one
+  // ("zh-CN", "zh-SG") — so both are checked. A bare "zh" carries neither and
+  // keeps Traditional, which is what the site shipped before Simplified existed.
+  // The region test is anchored on a separator so it cannot fire on a longer
+  // subtag that merely ends in those letters.
+  function chinese(tag) {
+    tag = tag.toLowerCase();
+    if (tag.indexOf("hans") >= 0) return "zhHans";
+    if (tag.indexOf("hant") >= 0) return "zh";
+    if (tag === "zh-cn" || tag === "zh-sg" || tag.indexOf("zh-cn-") === 0 || tag.indexOf("zh-sg-") === 0) return "zhHans";
+    return "zh";
   }
 
   function pick() {
@@ -83,8 +99,12 @@ const langScript = `(function () {
     // a language we ship wins.
     var langs = navigator.languages || [navigator.language || ""];
     for (var i = 0; i < langs.length; i++) {
+      var tag = langs[i] || "";
+      // "zh" has to be resolved to a script before the generic loop, which
+      // would otherwise return whichever Chinese sits first in the known list.
+      if (matches(tag, "zh")) return chinese(tag);
       for (var j = 0; j < known.length; j++) {
-        if (matches(langs[i] || "", known[j])) return known[j];
+        if (matches(tag, known[j])) return known[j];
       }
     }
     return "en";
