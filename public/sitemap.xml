@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written rather than generated: output:"export" ships three real
+     documents and two of them (privacy, terms) are plain files in public/,
+     so a generator would have to be told about them by hand anyway.
+     No <lastmod>: a stale date is a worse signal than none. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://wakecub.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://wakecub.app/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://wakecub.app/terms.html</loc><priority>0.3</priority></url>
+</urlset>

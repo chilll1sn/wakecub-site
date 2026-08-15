@@ -1,0 +1,16 @@
+# Everything here is public marketing copy. Crawl all of it.
+User-agent: *
+Allow: /
+
+# Answer engines are a wanted channel, not a leak: being quoted in an AI answer
+# is how someone hears about the app in the first place. Named explicitly
+# because Cloudflare serves a content-signal preamble on this domain that grants
+# nothing by default, and several of these crawlers read the signal, not just
+# the Allow rule.
+Content-Signal: search=yes, ai-input=yes
+
+# /_next/ holds hashed build chunks. Nothing to index, and letting a crawler
+# spend its budget there costs the pages that matter.
+Disallow: /_next/
+
+Sitemap: https://wakecub.app/sitemap.xml

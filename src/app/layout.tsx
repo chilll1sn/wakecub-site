@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
+import { APP_STORE_URL } from "@/lib/app-store";
 
 // Figtree: humanist, soft terminals, wide weight range — it matches the matte
 // injection-moulded toy the mascot actually is. One family, carried by weight
@@ -41,6 +42,51 @@ export const metadata: Metadata = {
       ko: "https://wakecub.app",
     },
   },
+};
+
+/* The page's facts in a form a machine can read without parsing marketing prose:
+   Google for rich results, answer engines for grounding a citation. The prose on
+   the page never states the platform, the price or the developer outright — it
+   is written to be funny, not to be extracted — so this is the only place those
+   are said plainly.
+
+   Deliberately absent: aggregateRating (the App Store shows 0 ratings, and
+   inventing one is both a Google structured-data penalty and a lie), and
+   softwareVersion / in-app purchase prices, which change on a release cadence
+   this file does not track and would quietly go stale. Only facts that hold
+   until the App itself changes shape belong here. */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "MobileApplication"],
+  name: "Wake cub",
+  alternateName: "Wake cub: Heavy Sleeper Alarm",
+  url: "https://wakecub.app",
+  installUrl: APP_STORE_URL,
+  description,
+  applicationCategory: "HealthApplication",
+  operatingSystem: "iOS 16.4 or later",
+  author: { "@type": "Person", name: "Yu-Chen Liao" },
+  // Free download; the camera-verified tasks are the paid tier. The price of
+  // that tier is deliberately not asserted — see the note above.
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    url: APP_STORE_URL,
+  },
+  featureList: [
+    "Camera-verified squats with a depth check",
+    "Camera-verified punches that must extend and retract",
+    "Jogging in place, timed while you keep moving",
+    "Toothbrushing verified by detecting a real toothbrush",
+    "Photograph a place in your home you chose the night before",
+    "Maths and vocabulary tasks that need no camera",
+    "Set off a friend's alarm and choose the task they must finish",
+    "On-device pose and object detection; no video leaves the phone",
+    "Keeps ringing after a force-quit or a volume-down",
+    "Home-screen widget showing the next alarm",
+  ],
+  inLanguage: ["en", "zh-Hant", "zh-Hans", "ja", "ko"],
 };
 
 /* Runs in <head>, before first paint, so a Japanese, Korean or Chinese reader
@@ -131,6 +177,10 @@ export default function RootLayout({
     <html lang="en" className={`${figtree.variable} h-full antialiased`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: langScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
