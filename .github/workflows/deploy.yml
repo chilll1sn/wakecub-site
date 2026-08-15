@@ -60,10 +60,15 @@ jobs:
       #
       # `|| true` because search-engine notification is not worth failing a
       # deploy that has already succeeded — the pages are live either way.
+      # The status code is printed rather than swallowed for exactly that
+      # reason: the step is green whatever happens, so the log is the only
+      # place a rejection can show. 200/202 is accepted, 403 means the key
+      # file stopped answering at keyLocation.
       - name: Notify IndexNow
         run: |
           curl -sS -X POST https://api.indexnow.org/indexnow \
             -H "Content-Type: application/json" \
+            -w "\nIndexNow returned HTTP %{http_code}\n" \
             -d '{
               "host": "wakecub.app",
               "key": "620357eb92559e15532c13f4a0e72cc4",
