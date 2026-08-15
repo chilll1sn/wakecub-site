@@ -46,3 +46,31 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+      # Tell IndexNow the pages changed, rather than waiting for a crawler to
+      # come back on its own schedule. Bing, Yandex and Seznam share this one
+      # endpoint. Ownership is proved by public/<key>.txt, which is served at
+      # the site root and must contain the key and nothing else — which is why
+      # that file carries no comment explaining itself, and this step does.
+      #
+      # Every deploy pings, with no check for whether the copy actually moved:
+      # a static export rewrites all three documents on every build, so a
+      # deploy IS the change notification. Deploys here are rare enough that
+      # this is not the "don't resubmit unchanged URLs" case the spec warns of.
+      #
+      # `|| true` because search-engine notification is not worth failing a
+      # deploy that has already succeeded — the pages are live either way.
+      - name: Notify IndexNow
+        run: |
+          curl -sS -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "wakecub.app",
+              "key": "620357eb92559e15532c13f4a0e72cc4",
+              "keyLocation": "https://wakecub.app/620357eb92559e15532c13f4a0e72cc4.txt",
+              "urlList": [
+                "https://wakecub.app/",
+                "https://wakecub.app/privacy.html",
+                "https://wakecub.app/terms.html"
+              ]
+            }' || true
