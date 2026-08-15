@@ -39,6 +39,13 @@ export const taskArt = {
 
 type Task = { alt: string; title: string; body: string };
 type Item = { title: string; body: string };
+/* Questions phrased the way someone types them into a search box, not the way a
+   brand would ask them, and every answer opens with the bare fact before any
+   joke. The rest of the page is deliberately hard to quote — it sells with tone
+   rather than statements — so this block is the only place that says outright
+   which platform, what it costs, and where the video goes. A search engine
+   needs a sentence it can lift whole, and so does an answer engine. */
+type Qa = { q: string; a: string };
 
 /* The language codes the site ships, in the order the switcher shows them.
    Everything else — the CSS classes, the head script, the switcher pills — is
@@ -64,6 +71,8 @@ export type Copy = {
   otherTasks: Item[];
   friends: { title: string; body: string };
   guarantees: [Item, Item];
+  faqHeading: string;
+  faq: [Qa, Qa, Qa, Qa, Qa, Qa];
   closing: { line: string; body: string; cta: string };
   footer: { rights: string; privacy: string; terms: string };
   notFound: { heading: string; bodyBefore: string; link: string; bodyAfter: string };
@@ -154,6 +163,33 @@ const en: Copy = {
       body: "Force-quit it, swipe the notification away, turn the volume down. It keeps coming back. Getting rid of Wake cub is meant to be harder than getting up.",
     },
   ],
+  faqHeading: "Before you ask",
+  faq: [
+    {
+      q: "Does Wake cub work on Android?",
+      a: "No. Wake cub is iOS only and needs iOS 16.4 or later. There is no Android version and no web version.",
+    },
+    {
+      q: "Is the camera recording me?",
+      a: "No. Pose and object detection run entirely on your device while a task is running. No frame of that video is uploaded, stored or sent anywhere — the camera is a sensor, not a recorder.",
+    },
+    {
+      q: "Can I force-quit the app to stop the alarm?",
+      a: "No. The alarm rings as a burst of notifications rather than a process you can swipe away, so force-quitting the app, dismissing the notification or turning the volume down won't stop it.",
+    },
+    {
+      q: "Is Wake cub free?",
+      a: "The download is free. The maths and vocabulary tasks, all 12 ringtones and as many alarms as you like are free forever. The camera-verified tasks — squats, punches, jogging, brushing your teeth and the photo task — are the paid tier.",
+    },
+    {
+      q: "Why does it need a camera? Isn't shaking the phone enough?",
+      a: "Shaking, tapping and maths all work lying down, which is why you can finish them half-asleep and go straight back to bed. The camera is what makes the alarm check your whole body, not just your thumb.",
+    },
+    {
+      q: "Can a friend really set off my alarm?",
+      a: "Yes, if you let them. You choose who is allowed to wake you, they pick which task you have to finish to stop it, and you can block or report anyone.",
+    },
+  ],
   closing: {
     line: "You can't argue with a bear that won't stop shouting.",
     body: "Free to download, with the camera-verified tasks available on subscription.",
@@ -235,6 +271,33 @@ const zh: Copy = {
     {
       title: "把 App 關掉也沒用",
       body: "強制關閉、把通知滑掉、把音量轉小，它還是會回來。想擺脫 Wake cub，本來就該比起床還難。",
+    },
+  ],
+  faqHeading: "你可能想問",
+  faq: [
+    {
+      q: "Wake cub 有 Android 版嗎？",
+      a: "沒有。Wake cub 只有 iOS 版，需要 iOS 16.4 以上。沒有 Android 版，也沒有網頁版。",
+    },
+    {
+      q: "相機會錄影嗎？",
+      a: "不會。執行任務時，姿勢與物件辨識全部在你的裝置上運算。那些畫面沒有任何一格會被上傳、儲存或送到任何地方——相機在這裡是感應器，不是錄影機。",
+    },
+    {
+      q: "把 App 強制關掉就能停了吧？",
+      a: "不行。鬧鐘是用一連串通知響的，不是一個可以滑掉的程式，所以強制關閉 App、把通知滑掉、把音量轉小，它都不會停。",
+    },
+    {
+      q: "Wake cub 要錢嗎？",
+      a: "下載免費。數學題、單字題、12 種鈴聲，以及想設幾個就設幾個的鬧鐘，永久免費。需要相機驗證的任務——深蹲、揮拳、慢跑、刷牙、拍照比對——屬於付費方案。",
+    },
+    {
+      q: "為什麼一定要用相機？搖手機不行嗎？",
+      a: "搖一搖、點一下、算數學，這些你躺著都做得到，所以你才會半睡半醒解完然後繼續睡。相機的作用，是讓鬧鐘檢查你的整個身體，而不是只有一根手指。",
+    },
+    {
+      q: "朋友真的可以讓我的鬧鐘響？",
+      a: "可以，前提是你允許他。你自己決定誰有資格叫你起床，他可以指定你要做完什麼任務才關得掉，而你隨時可以封鎖或檢舉任何人。",
     },
   ],
   closing: {
@@ -320,6 +383,33 @@ const zhHans: Copy = {
       body: "强制退出、把通知划掉、把音量调小，它还是会回来。想摆脱 Wake cub，本来就该比起床更难。",
     },
   ],
+  faqHeading: "你可能想问",
+  faq: [
+    {
+      q: "Wake cub 有 Android 版吗？",
+      a: "没有。Wake cub 只有 iOS 版，需要 iOS 16.4 或更高版本。没有 Android 版，也没有网页版。",
+    },
+    {
+      q: "摄像头会录像吗？",
+      a: "不会。执行任务时，姿势与物体识别全部在你的设备上完成。那些画面没有任何一帧会被上传、保存或发送到任何地方——摄像头在这里是传感器，不是录像机。",
+    },
+    {
+      q: "把 App 强制退出就能停了吧？",
+      a: "不行。闹钟是靠一连串通知响的，不是一个可以划掉的进程，所以强制退出 App、划掉通知、调低音量，它都不会停。",
+    },
+    {
+      q: "Wake cub 收费吗？",
+      a: "下载免费。数学题、单词题、12 种铃声，以及想设多少就设多少的闹钟，永久免费。需要摄像头验证的任务——深蹲、挥拳、慢跑、刷牙、拍照比对——属于付费方案。",
+    },
+    {
+      q: "为什么一定要用摄像头？摇手机不行吗？",
+      a: "摇一摇、点一下、做算术，这些你躺着都能完成，所以才会半睡半醒地解完然后接着睡。摄像头的作用，是让闹钟检查你的整个身体，而不只是一根手指。",
+    },
+    {
+      q: "朋友真的能让我的闹钟响？",
+      a: "能，前提是你允许。谁有资格叫你起床由你决定，对方可以指定你要做完哪个任务才能关掉，而你随时可以拉黑或举报任何人。",
+    },
+  ],
   closing: {
     line: "一只不停吼你的熊，是讲不通道理的。",
     body: "免费下载，摄像头验证任务为订阅制。",
@@ -403,6 +493,33 @@ const ja: Copy = {
       body: "強制終了しても、通知をスワイプで消しても、音量を下げても、また戻ってきます。Wake cub から逃げるより、起きるほうが簡単なように作ってあります。",
     },
   ],
+  faqHeading: "よくある質問",
+  faq: [
+    {
+      q: "Android版はありますか？",
+      a: "ありません。Wake cub は iOS のみで、iOS 16.4 以降が必要です。Android版もウェブ版もありません。",
+    },
+    {
+      q: "カメラは録画していますか？",
+      a: "いいえ。タスク中の姿勢と物体の認識は、すべてお使いの端末内で処理されます。その映像は1フレームたりともアップロード・保存・送信されません。カメラはここではセンサーであって、レコーダーではありません。",
+    },
+    {
+      q: "アプリを強制終了すれば止まりますか？",
+      a: "止まりません。アラームはスワイプで消せるプロセスではなく、連続した通知として鳴ります。強制終了しても、通知を消しても、音量を下げても鳴りやみません。",
+    },
+    {
+      q: "Wake cub は無料ですか？",
+      a: "ダウンロードは無料です。計算と単語のタスク、12種類のサウンド、そしてアラームの個数制限なしは、ずっと無料でお使いいただけます。カメラで確認するタスク（スクワット、パンチ、その場ジョギング、歯みがき、指定した場所での撮影）は有料プランです。",
+    },
+    {
+      q: "なぜカメラが必要なのですか？スマホを振るだけでは足りませんか？",
+      a: "振る・タップする・計算する。どれも寝たままできてしまうので、半分眠ったまま片づけて二度寝できます。カメラは、指先だけでなく体ぜんぶを確認するために使っています。",
+    },
+    {
+      q: "友だちが本当に私のアラームを鳴らせるのですか？",
+      a: "はい、あなたが許可した相手だけです。誰に起こされてもよいかはあなたが選び、相手は解除に必要なタスクを指定できます。ブロックと報告はいつでもできます。",
+    },
+  ],
   closing: {
     line: "叫び続けるクマとは、話し合いになりません。",
     body: "ダウンロードは無料。カメラで確認するタスクはサブスクリプションでご利用いただけます。",
@@ -484,6 +601,33 @@ const ko: Copy = {
     {
       title: "앱을 종료해도 소용없어요",
       body: "강제 종료해도, 알림을 밀어서 지워도, 음량을 낮춰도 다시 돌아와요. Wake cub에서 벗어나는 것보다 일어나는 게 더 쉽도록 만들었으니까요.",
+    },
+  ],
+  faqHeading: "자주 묻는 질문",
+  faq: [
+    {
+      q: "안드로이드 버전도 있나요?",
+      a: "없어요. Wake cub은 iOS 전용이고 iOS 16.4 이상이 필요해요. 안드로이드 버전도, 웹 버전도 없어요.",
+    },
+    {
+      q: "카메라가 녹화하나요?",
+      a: "아니요. 미션을 수행하는 동안 자세와 사물 인식은 전부 기기 안에서 처리돼요. 그 영상은 단 한 프레임도 업로드·저장·전송되지 않아요. 여기서 카메라는 센서이지 녹화기가 아니에요.",
+    },
+    {
+      q: "앱을 강제 종료하면 알람이 꺼지나요?",
+      a: "꺼지지 않아요. 알람은 밀어서 지울 수 있는 프로세스가 아니라 연속된 알림으로 울려요. 그래서 앱을 강제 종료하거나, 알림을 지우거나, 음량을 낮춰도 멈추지 않아요.",
+    },
+    {
+      q: "Wake cub은 무료인가요?",
+      a: "다운로드는 무료예요. 수학과 단어 미션, 벨소리 12종, 그리고 알람 개수 제한 없이 쓰는 건 계속 무료예요. 카메라로 확인하는 미션(스쿼트, 펀치, 제자리 조깅, 양치, 지정한 곳에서 촬영)은 유료예요.",
+    },
+    {
+      q: "왜 카메라가 필요한가요? 휴대폰을 흔드는 걸로는 안 되나요?",
+      a: "흔들기, 탭하기, 수학 풀기는 전부 누운 채로 돼요. 그래서 반쯤 잠든 채로 끝내고 다시 잠들게 되죠. 카메라는 손가락만이 아니라 몸 전체를 확인하려고 쓰는 거예요.",
+    },
+    {
+      q: "친구가 정말 제 알람을 울릴 수 있나요?",
+      a: "네, 당신이 허락한 사람만요. 누가 당신을 깨울 수 있는지는 당신이 정하고, 그 친구는 알람을 끄려면 무엇을 해야 하는지 고를 수 있어요. 차단과 신고는 언제든 가능해요.",
     },
   ],
   closing: {

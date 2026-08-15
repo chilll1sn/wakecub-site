@@ -203,6 +203,26 @@ function Page({ t }: { t: Copy }) {
         </div>
       </section>
 
+      {/* The page's only plain-spoken block. Answers stay visible rather than
+          folding into <details>: this exists to be lifted by a search snippet or
+          an answer engine, and hidden text is a weaker signal than shown text.
+          Questions are real headings so that lifting one carries its answer. */}
+      <section className="border-t py-16 md:py-24">
+        <Reveal>
+          <h2 className={`text-balance leading-[1.08] ${displayText}`}>
+            {t.faqHeading}
+          </h2>
+          <div className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2">
+            {t.faq.map((qa) => (
+              <div key={qa.q} className="border-t pt-4">
+                <h3 className="font-semibold text-foreground">{qa.q}</h3>
+                <p className={`mt-1 text-pretty ${bodyText}`}>{qa.a}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
       {/* The one deliberately generous fold on the page */}
       <section className="border-t py-24 text-center md:py-32">
         <Reveal>
@@ -245,9 +265,32 @@ function Page({ t }: { t: Copy }) {
   );
 }
 
+/* Built from the same strings the page renders rather than a hand-kept second
+   copy: Google requires FAQ markup to match the visible text, and a duplicate
+   list would be exactly the thing that drifts out of match on the next copy
+   edit. English specifically, because the English body is what shows before any
+   script has run, which is what a crawler sees.
+
+   Lives on this route and not in layout.tsx: the layout is shared with the
+   exported 404.html, which renders no FAQ, and claiming FAQPage on a page
+   without one is a structured-data mismatch. */
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: copy.en.faq.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
 export default function Home() {
   return (
     <main className="mx-auto w-full max-w-5xl px-6 sm:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
+      />
       <header className="flex items-center gap-3 py-6 text-lg font-extrabold tracking-tight">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
